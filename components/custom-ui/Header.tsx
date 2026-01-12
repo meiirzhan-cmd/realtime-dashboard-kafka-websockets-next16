@@ -28,7 +28,7 @@ export function Header() {
             Products
           </Link>
           <Link
-            href="/order"
+            href="/orders"
             className="text-sm font-medium transition-colors hover:text-primary"
           >
             Orders

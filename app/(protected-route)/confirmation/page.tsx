@@ -55,7 +55,7 @@ export default async function ConfirmationPage({
             </Link>
           </Button>
           <Button asChild variant="outline" className="w-full">
-            <Link href="/order">View Orders</Link>
+            <Link href="/orders">View Orders</Link>
           </Button>
         </CardFooter>
       </Card>

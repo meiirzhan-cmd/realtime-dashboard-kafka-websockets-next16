@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { getUserId } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
+import { produceOrder } from "@/lib/kafka";
 
 const CheckoutSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -107,6 +108,12 @@ export async function checkout(
         },
       },
     });
+
+    try {
+      await produceOrder(order.id, userId);
+    } catch (kafkaError) {
+      console.error("Failed to publish order event to Kafka:", kafkaError);
+    }
 
     return {
       success: true,
