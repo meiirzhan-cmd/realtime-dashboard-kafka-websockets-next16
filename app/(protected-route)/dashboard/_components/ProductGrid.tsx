@@ -1,4 +1,4 @@
-import { Product } from "@/lib/dummy-data/products";
+import { Product } from "@/prisma/generated/prisma/client";
 import { ProductCard } from "./ProductCard";
 
 type ProductGridProps = {

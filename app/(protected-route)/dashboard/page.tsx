@@ -1,7 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { ProductGrid } from "./_components/ProductGrid";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 
 function ProductGridSkeleton() {
   return (

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/useCartStore";
-import { Product } from "@/lib/generated/prisma/client";
+import { Product } from "@/prisma/generated/prisma/client";
 
 type ProductCardProps = {
   product: Product;
