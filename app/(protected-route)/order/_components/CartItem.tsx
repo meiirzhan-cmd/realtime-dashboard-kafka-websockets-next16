@@ -47,7 +47,7 @@ export function CartItem({ item }: Readonly<CartItemProps>) {
             <Button
               variant="outline"
               size="icon"
-              className="h-8 w-8"
+              className="h-8 w-8 cursor-pointer"
               onClick={() => updateQuantity(item.id, item.quantity - 1)}
             >
               <Minus className="h-4 w-4" />
@@ -56,7 +56,7 @@ export function CartItem({ item }: Readonly<CartItemProps>) {
             <Button
               variant="outline"
               size="icon"
-              className="h-8 w-8"
+              className="h-8 w-8 cursor-pointer"
               onClick={() => updateQuantity(item.id, item.quantity + 1)}
             >
               <Plus className="h-4 w-4" />
@@ -66,7 +66,7 @@ export function CartItem({ item }: Readonly<CartItemProps>) {
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-destructive hover:text-destructive"
+            className="h-8 w-8 cursor-pointer text-destructive hover:text-destructive"
             onClick={() => removeItem(item.id)}
           >
             <Trash2 className="h-4 w-4" />

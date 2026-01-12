@@ -1,25 +1,21 @@
 import { Header } from "@/components/custom-ui/Header";
-import { decrypt } from "@/lib/session";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import LoadingScreen from "./_components/LoadingScreen";
+import { AuthGate } from "./_components/AuthGate";
 
-export default async function ProtectedLayout({
+export default function ProtectedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("session")?.value;
-  const payload = await decrypt(session);
-
-  if (!payload?.userId) {
-    redirect("/login");
-  }
-
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container py-8">{children}</main>
-    </div>
+    <Suspense fallback={<LoadingScreen />}>
+      <AuthGate>
+        <div className="min-h-screen bg-background">
+          <Header />
+          <main className="container mx-auto py-8">{children}</main>
+        </div>
+      </AuthGate>
+    </Suspense>
   );
 }

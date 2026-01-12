@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-import { createServer } from "http";
+import { createServer } from "node:http";
 import { Server } from "socket.io";
 
 const kafka = new Kafka({ brokers: ["localhost:9092"] });

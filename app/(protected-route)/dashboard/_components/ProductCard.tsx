@@ -66,7 +66,10 @@ export function ProductCard({ product }: Readonly<ProductCardProps>) {
       </CardContent>
 
       <CardFooter>
-        <Button onClick={handleAddToCart} className="w-full gap-2">
+        <Button
+          onClick={handleAddToCart}
+          className="w-full gap-2 cursor-pointer"
+        >
           <Plus className="h-4 w-4" />
           Add to Cart
         </Button>

@@ -8,12 +8,13 @@ import { useMounted } from "@/store/useMounted";
 
 export function Header() {
   const mounted = useMounted();
-  const getTotalItems = useCartStore((state) => state.getTotalItems);
-  const itemCount = mounted ? getTotalItems() : 0;
+  const itemCount = useCartStore((state) =>
+    state.items.reduce((total, item) => total + item.quantity, 0)
+  );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <div className="container mx-auto flex h-16 items-center justify-between">
         <Link href="/dashboard" className="flex items-center gap-2">
           <Store className="h-6 w-6" />
           <span className="text-xl font-bold">TechStore</span>
@@ -38,7 +39,7 @@ export function Header() {
           <Button asChild variant="ghost" size="icon" className="relative">
             <Link href="/order">
               <ShoppingCart className="h-5 w-5" />
-              {itemCount > 0 && (
+              {mounted && itemCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
                   {itemCount}
                 </span>
@@ -46,12 +47,17 @@ export function Header() {
             </Link>
           </Button>
 
-          <Button variant="ghost" size="icon">
+          <Button className="cursor-pointer" variant="ghost" size="icon">
             <User className="h-5 w-5" />
           </Button>
 
           <form action="/api/auth/signout" method="POST">
-            <Button variant="ghost" size="icon" type="submit">
+            <Button
+              className="cursor-pointer"
+              variant="ghost"
+              size="icon"
+              type="submit"
+            >
               <LogOut className="h-5 w-5" />
             </Button>
           </form>
