@@ -16,6 +16,7 @@ export default async function register(
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
+    confirmPassword: formData.get("confirm-password"),
   });
 
   if (!validatedFields.success) {
