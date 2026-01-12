@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,8 +15,24 @@ import {
   FieldDescription,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect, useState } from "react";
+import register from "../action";
+import FormErrors from "@/components/custom-ui/FormErrors";
+import SuccessMessage from "@/components/custom-ui/SuccessMessage";
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [state, formAction, isPending] = useActionState(register, undefined);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.success) {
+      router.push("/login");
+    }
+  }, [state?.success, router]);
+
   return (
     <Card {...props}>
       <CardHeader>
@@ -24,16 +42,30 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form action={formAction}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" type="text" placeholder="John Doe" required />
+              <Input
+                id="name"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                type="text"
+                placeholder="John Doe"
+                required
+              />
+              {state?.errors?.name && (
+                <p className="text-sm text-red-500">{state?.errors.name[0]}</p>
+              )}
             </Field>
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
                 id="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 placeholder="m@example.com"
                 required
@@ -42,10 +74,13 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                 We&apos;ll use this to contact you. We will not share your email
                 with anyone else.
               </FieldDescription>
+              {state?.errors?.email && (
+                <p className="text-sm text-red-500">{state?.errors.email[0]}</p>
+              )}
             </Field>
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input id="password" type="password" required />
+              <Input id="password" name="password" type="password" required />
               <FieldDescription>
                 Must be at least 8 characters long.
               </FieldDescription>
@@ -54,14 +89,32 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               <FieldLabel htmlFor="confirm-password">
                 Confirm Password
               </FieldLabel>
-              <Input id="confirm-password" type="password" required />
+              <Input
+                id="confirm-password"
+                name="confirm-password"
+                type="password"
+                required
+              />
               <FieldDescription>Please confirm your password.</FieldDescription>
+              {state?.errors?.password && (
+                <p className="text-sm text-red-500">
+                  {state?.errors.password[0]}
+                </p>
+              )}
             </Field>
+            {state && "formErrors" in state && state.formErrors && (
+              <FormErrors errors={state.formErrors} />
+            )}
+
+            {state && "success" in state && state.success && (
+              <SuccessMessage
+                message={`Successfully signed up! Welcome ${state.user?.name}!`}
+              />
+            )}
             <FieldGroup>
               <Field>
-                <Button type="submit">Create Account</Button>
-                <Button variant="outline" type="button">
-                  Sign up with Google
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? "Logging in..." : "Create Account"}
                 </Button>
                 <FieldDescription className="px-6 text-center">
                   Already have an account? <a href="/login">Sign in</a>

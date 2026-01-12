@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/session";
 import { FormState, SignupFormSchema } from "@/lib/zod/definitions-register";
 import bcrypt from "bcrypt";
@@ -10,6 +10,8 @@ export default async function register(
   state: FormState,
   formData: FormData
 ): Promise<FormState> {
+  console.log("Server action called"); // Add this
+  console.log("Form data:", Object.fromEntries(formData)); // Add this
   const validatedFields = SignupFormSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),

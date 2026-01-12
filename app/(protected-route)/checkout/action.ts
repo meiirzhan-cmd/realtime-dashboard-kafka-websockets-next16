@@ -1,8 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import prisma from "@/lib/prisma";
 import { getUserId } from "@/lib/session";
+import { prisma } from "@/lib/prisma";
 
 const CheckoutSchema = z.object({
   firstName: z.string().min(1, "First name is required"),

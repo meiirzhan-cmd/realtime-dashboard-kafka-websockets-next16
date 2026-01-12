@@ -1,5 +1,5 @@
 "use server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/session";
 import { FormStateLogin, LoginFormSchema } from "@/lib/zod/definitions-login";
 import bcrypt from "bcrypt";
